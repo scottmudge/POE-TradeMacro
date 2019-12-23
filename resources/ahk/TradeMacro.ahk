@@ -235,9 +235,9 @@ TradeFunc_SetCurrencyRatio() {
 	TradeFunc_PreventClipboardGarbageAfterInit()
 	scancode_c := Globals.Get("Scancodes").c
 	Send ^{%scancode_c%}
-	Sleep 250
+	Sleep, 250
 	TradeFunc_DoParseClipboard()
-	
+
 	If (not Item.name or (not Item.IsCurrency or Item.IsEssence or Item.IsDivinationCard)) {
 		ShowToolTip("Item not supported by this function.`nWorks only on currency.")
 		Return
@@ -1127,7 +1127,7 @@ TradeFunc_Main(openSearchInBrowser = false, isAdvancedPriceCheck = false, isAdva
 							modParam.mod_name := imod.param
 							modParam.mod_min  := ""
 							RequestParams.modGroups[1].AddMod(modParam)
-							
+
 							If (StrLen(useOnlyThisBeastMod)) {
 								RequestParams.ilvl_min := 70
 							}
@@ -4630,6 +4630,7 @@ TradeFunc_AdvancedPriceCheckGui(advItem, Stats, Sockets, Links, UniqueStats = ""
 		}
 		Gui, SelectModsGui:Add, Text, x+10 yp+0 cc8c8c8 BackgroundTrans, %tLinksSockets%
 	}
+	Gui, SelectModsGui:Add, Text, x+10 yp+0 cc8c8c8 BackgroundTrans, % " -  iLvl : " advItem.iLvl
 
 	Gui, SelectModsGui:Add, Text, x0 w800 yp+13 cBlack BackgroundTrans, %line%
 
@@ -5183,7 +5184,10 @@ TradeFunc_AdvancedPriceCheckGui(advItem, Stats, Sockets, Links, UniqueStats = ""
 		iLvlValue		:= advItem.iLvl
 	}
 	Else {
-		If (advItem.maxSockets > 1) {
+		If (advItem.iLvl > 60) {
+			iLvlValue := advItem.iLvl
+		}		
+		Else If (advItem.maxSockets > 1) {
 			If (advItem.iLvl >= 50 and advItem.maxSockets > 5) {
 				iLvlValue := 50
 			} Else If (advItem.iLvl >= 35 and advItem.maxSockets > 4) {

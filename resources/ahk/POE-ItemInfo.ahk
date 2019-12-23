@@ -12384,6 +12384,13 @@ GetScanCodes() {
 		msg := "Using Dvorak keyboard layout mode!`n`nMsgBox closes after 15s."
 		MsgBox, 0, %project%, %msg%, 15
 		Return sc
+	} Else If (RegExMatch(InputLocaleID, "i)^(0xF0C00407).*")) {
+		; german dvorak (neo)
+		sc := {"c" : "sc013", "v" : "sc011", "f" : "sc018", "a" : "sc020", "enter" : "sc01C"}
+		project := Globals.Set("ProjectName")
+		msg := "Using German Dvorak (neo) keyboard layout mode!`n`nMsgBox closes after 15s."
+		MsgBox, 0, %project%, %msg%, 15
+		Return sc
 	} Else {
 		; default
 		sc := {"c" : "sc02E", "v" : "sc02f", "f" : "sc021", "a" : "sc01E", "enter" : "sc01C"}
