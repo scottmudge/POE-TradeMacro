@@ -4460,10 +4460,33 @@ TradeFunc_ShowPredictedPricingFeedbackUI(data) {
 	Gui, PredictedPricing:Add, GroupBox, w400 h%_groupBoxHeight% y+10 x10, Results
 	Gui, PredictedPricing:Font, norm s10 c000000, Consolas
 	Gui, PredictedPricing:Add, Text, yp+25 x20 w380 BackgroundTrans, % _headLine
-	Gui, PredictedPricing:Font, norm bold c000000, Consolas
-	Gui, PredictedPricing:Add, Text, x20 w90 y+10 BackgroundTrans, % "Price range: "
-	Gui, PredictedPricing:Font, norm c000000, Consolas
-	Gui, PredictedPricing:Add, Text, x+5 yp+0 BackgroundTrans, % Round(Trim(data.min), 2) " ~ " Round(Trim(data.max), 2) " " Trim(data.currency)
+	
+	; Highlights valuable items to make sure it's visible
+	; --------------------------------------------------------------------------
+	cur_string := Trim(data.currency)
+	min_val := Round(Trim(data.min), 2)
+	If InStr(cur_string, "exalt")
+	{
+		Gui, PredictedPricing:Font, s10 norm bold c00bb00, Consolas
+		Gui, PredictedPricing:Add, Text, x20 w90 y+10 BackgroundTrans, % "Price range: "	
+		Gui, PredictedPricing:Font, s11 norm bold c00bb00, Consolas
+		Gui, PredictedPricing:Add, Text, x+5 yp-1 BackgroundTrans, % Round(Trim(data.min), 2) " ~ " Round(Trim(data.max), 2) " " Trim(data.currency)
+	}
+	else{
+		Gui, PredictedPricing:Font, norm bold c000000, Consolas
+		Gui, PredictedPricing:Add, Text, x20 w90 y+10 BackgroundTrans, % "Price range: "	
+		If (min_val > 50.0 && InStr(cur_string, "chaos")){
+			Gui, PredictedPricing:Font, s11 norm bold c000000, Consolas
+			Gui, PredictedPricing:Add, Text, x+5 yp-1 BackgroundTrans, % Round(Trim(data.min), 2) " ~ " Round(Trim(data.max), 2) " " Trim(data.currency)
+		}
+		else{
+			Gui, PredictedPricing:Font, norm c000000, Consolas
+			Gui, PredictedPricing:Add, Text, x+5 yp+0 BackgroundTrans, % Round(Trim(data.min), 2) " ~ " Round(Trim(data.max), 2) " " Trim(data.currency)
+		}
+	}
+	Gui, PredictedPricing:Font, s10 norm bold c000000, Consolas
+	; --------------------------------------------------------------------------
+	
 	Gui, PredictedPricing:Add, Text, x20 w300 y+10 BackgroundTrans, % "Contribution to predicted price: "	
 	
 	; mod importance graph
